@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 
 namespace Phonebook
 {
@@ -15,7 +15,8 @@ namespace Phonebook
                 Console.WriteLine("1. Print all numbers");
                 Console.WriteLine("2. Add a new number");
                 Console.WriteLine("3. Remove number");
-                Console.WriteLine("4. Quit");
+                Console.WriteLine("4. Search phone number");
+                Console.WriteLine("5. Quit");
                 Console.ResetColor();
                 int input = int.Parse(Console.ReadLine());
 
@@ -30,10 +31,13 @@ namespace Phonebook
                     case 3:
                         removeNum(phonebook);
                         break;
+                    case 4:
+                        search(phonebook);
+                        break;
                     default:
                         break;
                 }
-                if (input == 4)
+                if (input == 5)
                     break;
             }
         }
@@ -62,11 +66,28 @@ namespace Phonebook
             Console.ResetColor();
             string name = Console.ReadLine();
             Console.ForegroundColor = ConsoleColor.Red;
+            if (phonebook.ContainsKey(name))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{name} is already in the phonebook.");
+                return;
+
+            }
+
             Console.WriteLine("Phone number:");
             Console.ResetColor();
             string phoneNum = Console.ReadLine();
             phonebook.Add(name, phoneNum);
 
+        }
+        private static void search(Dictionary<string, string> phonebook)
+        {
+            Console.WriteLine("Enter name of person who's phone number you want to see");
+            string name = Console.ReadLine();
+            if (phonebook.ContainsKey(name))
+                Console.WriteLine($" {name} {phonebook[name]}");
+            else
+                Console.WriteLine($"{name} does not exist in the phonebook.");
         }
 
         private static void printAllNums(Dictionary<string, string> phonebook)
@@ -85,4 +106,3 @@ namespace Phonebook
         }
     }
 }
-
